@@ -6,9 +6,8 @@ from typing import List, Any, Union
 
 
 def main():
-    bestand = "GCF_000164845.2_Vicugna_pacos-2.0.2_rna.fna"
+    bestand = "test.fna"
     headers, seqs = lees_inhoud(bestand)
-    
     zoekwoord = input("Geef een zoekwoord op: ")
     for i in range(len(headers)):
         if zoekwoord in headers[i]:
@@ -21,8 +20,12 @@ def main():
                 print("Sequentie is geen DNA. Er is iets fout gegaan.")
 
 
-def lees_inhoud(bestands_naam):
-    bestand = open(bestands_naam)
+def lees_inhoud(bestandsnaam):
+    try:
+        bestand = open(bestandsnaam)
+    except FileNotFoundError:
+        print("\nBestand niet gevonden.\n\nWeet je zeker dat het bestand '", bestandsnaam, "' in dezelfde folder zit?")
+        quit()
     headers = []
     seqs: List[Union[str, Any]] = []
     seq = ""
@@ -38,7 +41,7 @@ def lees_inhoud(bestands_naam):
     seqs.append(seq)
     return headers, seqs
 
-    
+
 def is_dna(seq):
     dna = False
     a = seq.count("A")
@@ -52,12 +55,16 @@ def is_dna(seq):
 
 
 def knipt(alpaca_seq):
-    bestand = open("enzymen.txt")
+    try:
+        bestand = open(alpaca_seq)
+    except FileNotFoundError:
+        print("\nBestand niet gevonden.\n\nWeet je zeker dat het bestand '", alpaca-seq, "' in dezelfde folder zit?")
+        quit()
     for line in bestand:
         naam, seq = line.split(" ")
         seq = seq.strip().replace("^", "")
         if seq in alpaca_seq:
             print(naam, "knipt in sequentie")
-    
+
 
 main()
